@@ -1,0 +1,20 @@
+Ciao Francesco
+<input type="text" [(ngModel)]="messaggio.testo">
+<input type="text" [(ngModel)]="messaggio.aliasDestinatario">
+<input type="text" [(ngModel)]="messaggio.aliasMittente">
+<br>
+<button (click)="conferma()">Conferma Messaggio</button>
+<table>
+  <tr *ngFor="let m of listaMessaggi">
+    <td>
+      {{m.testo}}
+    </td>
+    <td>
+      {{m.aliasDestinatario}}
+    </td>
+    <td>
+      {{m.aliasMittente}}
+    </td>
+  </tr>
+
+</table>
