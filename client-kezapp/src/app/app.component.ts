@@ -71,5 +71,9 @@ export class AppComponent {
 
     });
 
+    /*aggiorna(){
+      -- da implementare --
+    }*/
+
   }
   }

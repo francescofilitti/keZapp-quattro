@@ -85,7 +85,12 @@ public class ServiceImplQuattro implements ServiceQuattro {
 
     @Override
     public RegistrazioneDto aggiornaLista(RichiediMessaggiDto dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        RegistrazioneDto rec = new RegistrazioneDto();
+        Chat chat = rb.findByNickname(dto.getSessione());
+        if (chat == null){
+            return rec;
+        }
+        return new RegistrazioneDto();
     }
 
 }

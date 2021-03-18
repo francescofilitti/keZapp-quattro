@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin("*")
-public class ContollerQuattro {
+public class ControllerQuattro {
 
     @Autowired
     ServiceQuattro servizio;
