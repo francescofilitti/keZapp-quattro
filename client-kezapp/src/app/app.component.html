@@ -1,9 +1,31 @@
-Ciao Francesco
-<input type="text" [(ngModel)]="messaggio.testo">
-<input type="text" [(ngModel)]="messaggio.aliasDestinatario">
-<input type="text" [(ngModel)]="messaggio.aliasMittente">
+Francesco Filitti, [18.03.21 11:27]
+<input type="text" placeholder="nickname" [(ngModel)]="nickname">
+<button (click)="registrazione()">Registrazione</button>
 <br>
-<button (click)="conferma()">Conferma Messaggio</button>
+<input type="text" placeholder="messaggio" [(ngModel)]="messaggio">
+<button (click)="inviaTutti()">Invia a tutti</button>
+
+<br>
+<p>Contatti</p>
+
+<table>
+  <tr *ngFor="let c of contatti">
+    <td>
+      {{c.nickname}}
+    </td>
+    <td>
+      {{c.sessione}}
+    </td>
+
+    <td>
+      <button (click)="inviaUno()">invia</button>
+    </td>
+  </tr>
+
+</table>
+<br>
+<p>Messaggi ricevuti</p>
+<button (click)="aggiornaLista()">Aggiorna</button>
 <table>
   <tr *ngFor="let m of listaMessaggi">
     <td>
