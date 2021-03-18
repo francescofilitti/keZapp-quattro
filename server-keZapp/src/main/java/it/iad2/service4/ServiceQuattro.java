@@ -2,22 +2,16 @@ package it.iad2.service4;
 
 import it.iad2.dto4.RegistrazioneDto;
 import it.iad2.dto4.InviaMessaggioDto;
-import it.iad2.model4.Messaggio;
+import it.iad2.dto4.RichiediMessaggiDto;
+import it.iad2.dto4.RichiediRegistrazioneDto;
 
 public interface ServiceQuattro {
 
-    RegistrazioneDto conferma(Messaggio p);
+    RegistrazioneDto registrazione(RichiediRegistrazioneDto dto);
 
-    InviaMessaggioDto modifica(Messaggio p);
-    // InviaMessaggioDto annulla (Messaggio p); Da gestire lato client?
+    RegistrazioneDto inviaTutti(InviaMessaggioDto dto);
 
-    RegistrazioneDto rimuovi(Messaggio p);
+    RegistrazioneDto inviaUno(InviaMessaggioDto dto);
 
-    InviaMessaggioDto cerca(String s);
-    
-    InviaMessaggioDto seleziona(Messaggio p);
-    
-    RegistrazioneDto aggiornaLista();
-    
-
+    RegistrazioneDto aggiornaLista(RichiediMessaggiDto dto);
 }

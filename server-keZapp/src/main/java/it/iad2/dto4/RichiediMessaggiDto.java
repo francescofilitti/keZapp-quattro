@@ -1,7 +1,7 @@
 package it.iad2.dto4;
 
 public class RichiediMessaggiDto {
-    public String sessione;
+    private String sessione;
 
     public RichiediMessaggiDto() {
     }

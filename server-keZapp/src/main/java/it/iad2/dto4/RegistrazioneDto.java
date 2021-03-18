@@ -1,31 +1,51 @@
 package it.iad2.dto4;
 
+import it.iad2.model4.Chat;
 import it.iad2.model4.Messaggio;
 import java.util.List;
 
 public class RegistrazioneDto {
 
-    public List<Messaggio> listaMessaggi;
+    private List<Chat> contatti;
+    private List<Messaggio> messaggi;
+    private String sessione;
 
     public RegistrazioneDto() {
     }
 
-    public RegistrazioneDto(List<Messaggio> listaMessaggi) {
-        this.listaMessaggi = listaMessaggi;
-    }
-
-    public List<Messaggio> getListaMessaggi() {
-        return listaMessaggi;
-    }
-
-    public void setListaMessaggi(List<Messaggio> listaMessaggi) {
-        this.listaMessaggi = listaMessaggi;
+    public RegistrazioneDto(List<Chat> contatti, List<Messaggio> messaggi, String sessione) {
+        this.contatti = contatti;
+        this.messaggi = messaggi;
+        this.sessione = sessione;
     }
 
     @Override
     public String toString() {
-        return "RegistrazioneDto{" + "listaMessaggi=" + listaMessaggi + '}';
+        return "RegistrazioneDto{" + "contatti=" + contatti + ", messaggi=" + messaggi + ", sessione=" + sessione + '}';
     }
 
+    public List<Chat> getContatti() {
+        return contatti;
+    }
+
+    public void setContatti(List<Chat> contatti) {
+        this.contatti = contatti;
+    }
+
+    public List<Messaggio> getMessaggi() {
+        return messaggi;
+    }
+
+    public void setMessaggi(List<Messaggio> messaggi) {
+        this.messaggi = messaggi;
+    }
+
+    public String getSessione() {
+        return sessione;
+    }
+
+    public void setSessione(String sessione) {
+        this.sessione = sessione;
+    }
 
 }

@@ -3,6 +3,7 @@ package it.iad2.controller4;
 import it.iad2.dto4.RegistrazioneDto;
 import it.iad2.dto4.InviaMessaggioDto;
 import it.iad2.dto4.RichiediMessaggiDto;
+import it.iad2.dto4.RichiediRegistrazioneDto;
 import it.iad2.service4.ServiceQuattro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,33 +20,26 @@ public class ContollerQuattro {
     ServiceQuattro servizio;
 
     @ResponseBody
-    @RequestMapping("/conferma")
-    public RegistrazioneDto conferma(@RequestBody InviaMessaggioDto dto) {
-        return servizio.conferma(dto.getMessaggio());
+    @RequestMapping("/registrazione")
+    public RegistrazioneDto registrazione(@RequestBody RichiediRegistrazioneDto dto) {
+        return servizio.registrazione(dto);
     }
 
     @ResponseBody
-    @RequestMapping("/rimuovi")
-    public RegistrazioneDto rimuovi(@RequestBody InviaMessaggioDto dto) {
-        return servizio.rimuovi(dto.getMessaggio());
+    @RequestMapping("/invia-tutti")
+    public RegistrazioneDto inviaTutti(@RequestBody InviaMessaggioDto dto) {
+        return servizio.inviaTutti(dto);
     }
 
     @ResponseBody
-    @RequestMapping("/modifica")
-    public InviaMessaggioDto modifica(@RequestBody InviaMessaggioDto dto) {
-        return servizio.modifica(dto.getMessaggio());
-    }
-
-    @ResponseBody
-    @RequestMapping("/cerca")
-    public InviaMessaggioDto cerca(@RequestBody RichiediMessaggiDto dto) {
-        return servizio.cerca(dto.getSessione());
-
+    @RequestMapping("/invia-uno")
+    public RegistrazioneDto inviaUno(@RequestBody InviaMessaggioDto dto) {
+        return servizio.inviaUno(dto);
     }
 
     @ResponseBody
     @RequestMapping("/aggiorna")
-    public RegistrazioneDto aggiornaLista() {
-        return servizio.aggiornaLista();
+    public RegistrazioneDto aggiornaLista(@RequestBody RichiediMessaggiDto dto) {
+        return servizio.aggiornaLista(dto);
     }
 }
