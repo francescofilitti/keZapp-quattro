@@ -34,7 +34,7 @@ export class AppComponent {
     dto.nickname = this.nickname;
 
     let oss: Observable<RegistrazioneDto> = this.http.post<RegistrazioneDto>(
-      "http://localhost:8080//registrazione", dto);
+      "http://localhost:8080/registrazione", dto);
 
     oss.subscribe
       (c => {
@@ -42,7 +42,7 @@ export class AppComponent {
         this.listaMessaggi = c.listaMessaggi;
         this.chat.sessione = c.sessione
       });
-
+    this.nickname = "";
   }
   inviaTutti() {
     let dto: InviaMessaggioDto = new InviaMessaggioDto();
@@ -52,7 +52,6 @@ export class AppComponent {
     let oss: Observable<RegistrazioneDto> = this.http.post<RegistrazioneDto>('http://localhost:8080/invia-tutti', dto);
     oss.subscribe(a => {
       this.listaMessaggi = a.listaMessaggi;
-      this.sessione = a.sessione;
       this.contatti = a.contatti;
     });
 
@@ -63,17 +62,15 @@ export class AppComponent {
     dto.messaggio = this.messaggio;
     dto.sessione = this.sessione;
     dto.destinatario = this.destinatario;
-    let oss: Observable<RegistrazioneDto> = this.http.post<RegistrazioneDto>('http://localhost:8080/invia-tutti', dto);
+    let oss: Observable<RegistrazioneDto> = this.http.post<RegistrazioneDto>('http://localhost:8080/invia-uno', dto);
     oss.subscribe(a => {
       this.listaMessaggi = a.listaMessaggi;
-      this.sessione = a.sessione;
       this.contatti = a.contatti;
 
     });
-
-    /*aggiorna(){
-      -- da implementare --
-    }*/
-
   }
-  }
+
+  aggiornaLista() { }//da implementare
+
+ 
+}

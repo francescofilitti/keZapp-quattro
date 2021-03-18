@@ -33,16 +33,11 @@ public class ServiceImplQuattro implements ServiceQuattro {
             //assegnamo nickname alla chat con il nickname che arriva dal dto del client
             blogger.setNickname(dto.getNickname());
             //salviamo il blogger nella db x valorizzare l'id
-            rb.save(blogger);
-            //prendiamo da db il blogger con il nuovo id
-            blogger = rb.findByNickname(dto.getNickname());
+            blogger = rb.save(blogger);
             //valorizziamo parametro sessione passando a string l'id
             blogger.setSessione(Long.toString(blogger.getId()));
-            //si cancella dal db il record senza sessione valorizzata
-            rb.deleteById(blogger.getId());
             //carichiamo il record completo
             rb.save(blogger);
-
             List<Chat> listaUtenti = rb.findAll();
             List<Messaggio> listaMessaggi = repositoryQ.findAll();
 
