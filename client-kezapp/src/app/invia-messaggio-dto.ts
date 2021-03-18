@@ -1,5 +1,8 @@
 import { Messaggio } from "./messaggio";
 
 export class InviaMessaggioDto {
-  messaggio: Messaggio;
+  messaggio: string;
+  sessione: string;
+  destinatario: string;
+
 }

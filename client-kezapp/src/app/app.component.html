@@ -18,14 +18,14 @@ Francesco Filitti, [18.03.21 11:27]
     </td>
 
     <td>
-      <button (click)="inviaUno()">invia</button>
+      <button (click)="inviaUno(c)">invia</button>
     </td>
   </tr>
 
 </table>
 <br>
 <p>Messaggi ricevuti</p>
-<button (click)="aggiornaLista()">Aggiorna</button>
+<!--<button (click)="aggiornaLista()">Aggiorna</button>-->
 <table>
   <tr *ngFor="let m of listaMessaggi">
     <td>
