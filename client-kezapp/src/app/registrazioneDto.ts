@@ -3,6 +3,6 @@ import { Messaggio } from "./messaggio";
 
 export class RegistrazioneDto {
   contatti: Chat[];
-  listaMessaggi: Array<Messaggio>;
+  listaMessaggi: Messaggio[];
   sessione: string;
 }

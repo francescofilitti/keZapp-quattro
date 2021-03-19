@@ -15,13 +15,13 @@ import { RichiediRegistrazioneDto } from './richiedi-registrazione-dto';
 })
 export class AppComponent {
 
-  messaggio: string = ""
+  messaggio: string;
   nickname: string;
   listaMessaggi: Messaggio[] = [];
   contatti: Chat[] = [];
   chat: Chat;
   sessione: string;
-  destinatario: string = "";
+  destinatario: string;
 
 
   constructor(private http: HttpClient) {
@@ -39,10 +39,10 @@ export class AppComponent {
       "http://localhost:8080/registrazione", dto);
 
     oss.subscribe
-      (c => {
+      ((c) => {
         this.contatti = c.contatti;
         this.listaMessaggi = c.listaMessaggi;
-        this.chat.sessione = c.sessione
+        this.sessione = c.sessione
       });
 
 
@@ -56,7 +56,7 @@ export class AppComponent {
     dto.destinatario = null;
     let oss: Observable<RegistrazioneDto> = this.http.post<RegistrazioneDto>('http://localhost:8080/invia-tutti', dto);
     oss.subscribe
-      (c => {
+      ((c) => {
         this.contatti = c.contatti;
         this.listaMessaggi = c.listaMessaggi;
 
@@ -71,7 +71,7 @@ export class AppComponent {
     dto.sessione = c.sessione;
     dto.destinatario = c.nickname;
     let oss: Observable<RegistrazioneDto> = this.http.post<RegistrazioneDto>('http://localhost:8080/invia-uno', dto);
-    oss.subscribe(a => {
+    oss.subscribe((a) => {
       this.listaMessaggi = a.listaMessaggi;
       this.contatti = a.contatti;
 
@@ -84,7 +84,7 @@ export class AppComponent {
     let dto: RichiediMessaggioDto = new RichiediMessaggioDto();
     dto.sessione = this.sessione;
     let ox: Observable<RegistrazioneDto> = this.http.post<RegistrazioneDto>('http://localhost:8080/aggiorna', dto);
-    ox.subscribe(a => {
+    ox.subscribe((a) => {
       this.listaMessaggi = a.listaMessaggi;
       this.contatti = a.contatti;
 

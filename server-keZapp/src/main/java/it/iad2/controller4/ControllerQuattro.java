@@ -40,6 +40,6 @@ public class ControllerQuattro {
     @ResponseBody
     @RequestMapping("/aggiorna")
     public RegistrazioneDto aggiornaLista(@RequestBody RichiediMessaggiDto dto) {
-        return servizio.aggiornaLista(dto);
+        return servizio.aggiornaLista(dto.getSessione());
     }
 }

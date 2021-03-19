@@ -13,5 +13,7 @@ public interface ServiceQuattro {
 
     RegistrazioneDto inviaUno(InviaMessaggioDto dto);
 
-    RegistrazioneDto aggiornaLista(RichiediMessaggiDto dto);
+    RegistrazioneDto aggiornaLista(String ss);
+    
+    
 }

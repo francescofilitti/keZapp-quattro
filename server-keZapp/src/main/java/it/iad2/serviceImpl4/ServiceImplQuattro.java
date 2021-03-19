@@ -6,26 +6,26 @@ import it.iad2.dto4.RichiediMessaggiDto;
 import it.iad2.dto4.RichiediRegistrazioneDto;
 import it.iad2.model4.Chat;
 import it.iad2.model4.Messaggio;
-import it.iad2.repository4.RepositoryQuattro;
-import it.iad2.repository4.RepositoryBlogger;
 import it.iad2.service4.ServiceQuattro;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import it.iad2.repository4.RepositoryMessaggio;
+import it.iad2.repository4.RepositoryChat;
 
 @Service
 public class ServiceImplQuattro implements ServiceQuattro {
 
     @Autowired
-    RepositoryQuattro repositoryQ;
+    RepositoryMessaggio repositoryMessaggio;
 
     @Autowired
-    RepositoryBlogger rb;
+    RepositoryChat repositoryChat;
 
     @Override
     public RegistrazioneDto registrazione(RichiediRegistrazioneDto dto) {
-        List<Chat> listaBlogger = rb.findByNicknameEquals(dto.getNickname());
+        List<Chat> listaBlogger = repositoryChat.findByNicknameEquals(dto.getNickname());
 
         if (listaBlogger.isEmpty()) {
             //istanziamo una nuova chat
@@ -33,13 +33,13 @@ public class ServiceImplQuattro implements ServiceQuattro {
             //assegnamo nickname alla chat con il nickname che arriva dal dto del client
             blogger.setNickname(dto.getNickname());
             //salviamo il blogger nella db x valorizzare l'id
-            blogger = rb.save(blogger);
+            blogger = repositoryChat.save(blogger);
             //valorizziamo parametro sessione passando a string l'id
             blogger.setSessione(Long.toString(blogger.getId()));
             //carichiamo il record completo
-            rb.save(blogger);
-            List<Chat> listaUtenti = rb.findAll();
-            List<Messaggio> listaMessaggi = repositoryQ.findAll();
+            repositoryChat.save(blogger);
+            List<Chat> listaUtenti = repositoryChat.findAll();
+            List<Messaggio> listaMessaggi = repositoryMessaggio.findAll();
 
             return new RegistrazioneDto(listaUtenti, listaMessaggi, blogger.getSessione());
         } else {
@@ -68,12 +68,12 @@ public class ServiceImplQuattro implements ServiceQuattro {
     @Override
     public RegistrazioneDto inviaUno(InviaMessaggioDto dto) {
         RegistrazioneDto dtoReturn = new RegistrazioneDto();
-        Chat utente = rb.findBySessione(dto.getSessione());
+        Chat utente = repositoryChat.findBySessione(dto.getSessione());
 
         if (utente == null) {
             return dtoReturn;
         } else if (dto.getDestinatario() != null) {
-            Chat dest = rb.findByNickname(dto.getDestinatario());
+            Chat dest = repositoryChat.findByNickname(dto.getDestinatario());
 
             if (dest == null) {
                 return dtoReturn;
@@ -81,28 +81,34 @@ public class ServiceImplQuattro implements ServiceQuattro {
         }
         Messaggio m = new Messaggio();
         m.setTesto(dto.getMessaggio());
-        Chat dest = rb.findByNickname(dto.getDestinatario());
+        Chat dest = repositoryChat.findBySessione(dto.getSessione());
         m.setAliasDestinatario(dto.getDestinatario());
         m.setAliasMittente(dest.getNickname());
-        m = repositoryQ.save(m);
-
-        List<Chat> listaDest = new ArrayList<>();
-        listaDest.add(rb.findByNickname(dto.getDestinatario()));
-        List<Messaggio> listaMessaggi = new ArrayList<>();
-        listaMessaggi.add(m);
-
-        return new RegistrazioneDto(listaDest, listaMessaggi, dto.getSessione());
-
+        m = repositoryMessaggio.save(m);
+        return aggiornaLista(dto.getSessione());
     }
 
     @Override
-    public RegistrazioneDto aggiornaLista(RichiediMessaggiDto dto) {
-        RegistrazioneDto rec = new RegistrazioneDto();
-        Chat c = rb.findBySessione(dto.getSessione());
+    public RegistrazioneDto aggiornaLista(String ss) {
+        Chat c = repositoryChat.findBySessione(ss);
         if (c == null) {
+            RegistrazioneDto rec = new RegistrazioneDto();
             return rec;
         }
-        return new RegistrazioneDto();
+
+        List<Chat> listaChat = repositoryChat.findAll();
+        return new RegistrazioneDto(listaChat, recuperaMessaggi(c), null);
+
     }
 
+    private List<Messaggio> recuperaMessaggi(Chat c) {
+
+        //Recupero tutti i messaggi pubblici
+        List<Messaggio> pubblici = repositoryMessaggio.findByAliasDestinatarioIsNull();
+        //Recupero tutti i messaggi privati
+        List<Messaggio> privati = repositoryMessaggio.findByAliasDestinatario(c.getNickname());
+        //Unisco le due lista
+        pubblici.addAll(privati);
+        return pubblici;
+    }
 }
