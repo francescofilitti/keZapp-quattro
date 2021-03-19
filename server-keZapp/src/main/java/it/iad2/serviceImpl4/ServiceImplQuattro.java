@@ -7,7 +7,7 @@ import it.iad2.dto4.RichiediRegistrazioneDto;
 import it.iad2.model4.Chat;
 import it.iad2.model4.Messaggio;
 import it.iad2.repository4.RepositoryQuattro;
-import it.iad2.service4.RepositoryBlogger;
+import it.iad2.repository4.RepositoryBlogger;
 import it.iad2.service4.ServiceQuattro;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,25 +50,42 @@ public class ServiceImplQuattro implements ServiceQuattro {
 
     @Override
     public RegistrazioneDto inviaTutti(InviaMessaggioDto dto) {
-         Messaggio m = new Messaggio();
-        m.setTesto(dto.getMessaggio());
-        Chat dest = rb.findByNickname(dto.getDestinatario());
-        m.setAliasDestinatario(dest.getNickname());
-        List<Chat> listaDest = new ArrayList<>();
-        listaDest=rb.findAll();
-        List<Messaggio> listaMessaggi = new ArrayList<>();
-        listaMessaggi.add(m);
-
-        return new RegistrazioneDto(listaDest, listaMessaggi, dto.getSessione());
-
+        dto.setDestinatario(null);
+        return inviaUno(dto);
+//        Messaggio m = new Messaggio();
+//        m.setTesto(dto.getMessaggio());
+//        Chat dest = rb.findByNickname(dto.getSessione());
+//        m.setAliasDestinatario(dest.getNickname());
+//        List<Chat> listaDest = new ArrayList<>();
+//        listaDest = rb.findAll();
+//        List<Messaggio> listaMessaggi = new ArrayList<>();
+//        listaMessaggi.add(m);
+//
+//        return new RegistrazioneDto(listaDest, listaMessaggi, dto.getSessione());
+//
     }
 
     @Override
     public RegistrazioneDto inviaUno(InviaMessaggioDto dto) {
+        RegistrazioneDto dtoReturn = new RegistrazioneDto();
+        Chat utente = rb.findBySessione(dto.getSessione());
+
+        if (utente == null) {
+            return dtoReturn;
+        } else if (dto.getDestinatario() != null) {
+            Chat dest = rb.findByNickname(dto.getDestinatario());
+
+            if (dest == null) {
+                return dtoReturn;
+            }
+        }
         Messaggio m = new Messaggio();
         m.setTesto(dto.getMessaggio());
         Chat dest = rb.findByNickname(dto.getDestinatario());
-        m.setAliasDestinatario(dest.getNickname());
+        m.setAliasDestinatario(dto.getDestinatario());
+        m.setAliasMittente(dest.getNickname());
+        m = repositoryQ.save(m);
+
         List<Chat> listaDest = new ArrayList<>();
         listaDest.add(rb.findByNickname(dto.getDestinatario()));
         List<Messaggio> listaMessaggi = new ArrayList<>();
@@ -82,7 +99,7 @@ public class ServiceImplQuattro implements ServiceQuattro {
     public RegistrazioneDto aggiornaLista(RichiediMessaggiDto dto) {
         RegistrazioneDto rec = new RegistrazioneDto();
         Chat chat = rb.findByNickname(dto.getSessione());
-        if (chat == null){
+        if (chat == null) {
             return rec;
         }
         return new RegistrazioneDto();
