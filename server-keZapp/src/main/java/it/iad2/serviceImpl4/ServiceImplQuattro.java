@@ -98,8 +98,8 @@ public class ServiceImplQuattro implements ServiceQuattro {
     @Override
     public RegistrazioneDto aggiornaLista(RichiediMessaggiDto dto) {
         RegistrazioneDto rec = new RegistrazioneDto();
-        Chat chat = rb.findByNickname(dto.getSessione());
-        if (chat == null) {
+        Chat c = rb.findBySessione(dto.getSessione());
+        if (c == null) {
             return rec;
         }
         return new RegistrazioneDto();

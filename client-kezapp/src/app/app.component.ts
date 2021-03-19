@@ -5,6 +5,7 @@ import { Chat } from './chat';
 import { InviaMessaggioDto } from './invia-messaggio-dto';
 import { Messaggio } from './messaggio';
 import { RegistrazioneDto } from './registrazioneDto';
+import { RichiediMessaggioDto } from './richiedi-messaggio-dto';
 import { RichiediRegistrazioneDto } from './richiedi-registrazione-dto';
 
 @Component({
@@ -15,13 +16,13 @@ import { RichiediRegistrazioneDto } from './richiedi-registrazione-dto';
 export class AppComponent {
 
   messaggio: string = ""
-  nickname: string ;
+  nickname: string;
   listaMessaggi: Messaggio[] = [];
   contatti: Chat[] = [];
   chat: Chat;
   sessione: string;
   destinatario: string = "";
-  
+
 
   constructor(private http: HttpClient) {
   }
@@ -58,7 +59,7 @@ export class AppComponent {
       (c => {
         this.contatti = c.contatti;
         this.listaMessaggi = c.listaMessaggi;
-       
+
       });
 
     this.messaggio = "";
@@ -79,7 +80,16 @@ export class AppComponent {
     this.messaggio = "";
   }
 
-  aggiornaLista() { }//da implementare
+  aggiornaLista() {
+    let dto: RichiediMessaggioDto = new RichiediMessaggioDto();
+    dto.sessione = this.sessione;
+    let ox: Observable<RegistrazioneDto> = this.http.post<RegistrazioneDto>('http://localhost:8080/aggiorna', dto);
+    ox.subscribe(a => {
+      this.listaMessaggi = a.listaMessaggi;
+      this.contatti = a.contatti;
 
- 
+    });
+
+
+  }
 }
